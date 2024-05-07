@@ -7,7 +7,7 @@ enum TimeStore : byte
     DATE,
     MTH,
     YEAR
-}
+};
 
 enum SetupStore : byte
 {
@@ -57,12 +57,34 @@ enum SetupStore : byte
     Tampday = 0x2f,
 };
 
-const byte Light1 = P2_3;
-const byte Light2 = P2_4;
-const byte Light3 = P2_5;
-const byte Light4 = P2_6;
-const byte LightLCD = P2_7;
+struct Light
+{
+    const byte Light1 = P2_3;
+    const byte Light2 = P2_4;
+    const byte Light3 = P2_5;
+    const byte Light4 = P2_6;
+    const byte LightLCD = P2_7;
 
-const byte ButtonLight1 = P2_0;
-const byte ButtonLight2 = P2_1;
-const byte ButtonLight3 = P2_2;
+    const byte ButtonLight1 = P2_0;
+    const byte ButtonLight2 = P2_1;
+    const byte ButtonLight3 = P2_2;
+};
+
+enum ButtonCode : unsigned long
+{
+    Button1 = 0xFF807F,
+    Button2 = 0xFF40BF, 
+    Button3 = 0xFFC03F, 
+    Button4 = 0xFF20DF, 
+    Button5 = 0xFFA05F, 
+    Button6 = 0xFF609F, 
+
+    ButtonUp = 0xFFE21D,    
+    ButtonDown = 0xFFD22D,   
+    ButtonRight = 0xFF52AD, 
+    ButtonLeft = 0xFF12ED, 
+
+    ButtonOk = 0xFF926D,   
+    ButtonMenu = 0xFFB24D,
+    ButtonApp = 0xFF6A95,  
+}

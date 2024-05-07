@@ -1,6 +1,6 @@
 #include "ds1307.h"
 
-DS1307_I2C::DS1307_I2C(byte SCL_pin, byte SDA_pin)
+DS1307_I2C::DS1307_I2C(const byte SCL_pin, const byte SDA_pin)
 {
     SCL = SCL_pin;
     SDA = SDA_pin;

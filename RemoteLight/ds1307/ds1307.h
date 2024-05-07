@@ -1,7 +1,7 @@
 class DS1307_I2C
 {
 public:
-  DS1307_I2C(byte SCL_pin, byte SDA_pin);
+  DS1307_I2C(const byte SCL_pin,const byte SDA_pin);
   unsigned char DS_r(unsigned char addr);
   void DS_W(unsigned char addr, unsigned char dat);
 
