@@ -1,10 +1,3 @@
-
-
-
-
-char _ud = 2;
-char _selt = 0;
-void set_time(unsigned char S1, unsigned char S2, unsigned char PH1, unsigned char PH2, unsigned char GIO1, unsigned char GIO2, unsigned char SW1, unsigned char SW2, char n);
 void chon_den_hen_gio();
 void onoff();
 unsigned long i = 0;
