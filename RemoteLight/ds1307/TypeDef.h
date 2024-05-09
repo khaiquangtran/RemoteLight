@@ -111,6 +111,15 @@ enum ListSetupTimer : byte
     hour2 = 0x05,
     minute2 = 0x06,
     second2 = 0x07,
+    none = 0xFF
+}
+
+enum OrderLight : byte {
+    Light1 = 0,
+    Light2,
+    Light3,
+    Light4,
+    None
 }
 
 enum UpDown : byte
@@ -144,6 +153,8 @@ enum UpDown : byte
 
 #define ON 1
 #define OFF 0
+
+#define NumberDayAdjustment 4
 
 enum Row : byte
 {

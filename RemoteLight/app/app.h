@@ -18,8 +18,11 @@ private:
     void read_DS();
     void show_DS();
     void setup_time();
-    void set_time(unsigned char S1, unsigned char S2, unsigned char PH1, unsigned char PH2, unsigned char GIO1, unsigned char GIO2, unsigned char SW1, unsigned char SW2, char n);
-    void set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned char inMinute1, unsigned char inMinute2, unsigned char inHour1, unsigned char inHour2, unsigned char inSwitch1, unsigned char inSwitch2, unsigned char n, ListSetupTimer& flagMoveLeftRight, UpDown& flagUpDown);
+    void set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned char inMinute1, unsigned char inMinute2, unsigned char inHour1, unsigned char inHour2, unsigned char inSwitch1, unsigned char inSwitch2, OrderLight flagChooseLight, ListSetupTimer& flagMoveLeftRight, UpDown& flagUpDown);
+    void mode_set_timer_light();
+    void mode_time_adjustment();
+    void mode_clear_lcd_display();
+    void mode_on_off();
 
     LCD74595 lcd74595;
     DS1307 ds1307;
@@ -40,4 +43,5 @@ private:
     byte previousDay;
     byte tamp_sec;
     byte previousSec;
+    byte flagDislayLCD;
 }
