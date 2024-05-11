@@ -1,12 +1,12 @@
 #include "ds1307.h"
 
-DS1307_I2C::DS1307_I2C(const byte SCL_pin, const byte SDA_pin)
+DS1307::DS1307(const byte SCL_pin, const byte SDA_pin)
 {
     SCL = SCL_pin;
     SDA = SDA_pin;
 }
 
-void DS1307_I2C::I2C_start(void)
+void DS1307::I2C_start(void)
 {
     pinMode(SCL, OUTPUT);
     pinMode(SDA, OUTPUT);
@@ -22,7 +22,7 @@ void DS1307_I2C::I2C_start(void)
     delayMicroseconds(20);
 }
 
-void DS1307_I2C::I2C_stop(void)
+void DS1307::I2C_stop(void)
 {
     pinMode(SCL, OUTPUT);
     pinMode(SDA, OUTPUT);
@@ -36,7 +36,8 @@ void DS1307_I2C::I2C_stop(void)
     delayMicroseconds(20);
     digitalWrite(SDA, 1);
 }
-unsigned char DS1307_I2C::I2C_w(unsigned char dat)
+
+unsigned char DS1307::I2C_w(unsigned char dat)
 {
     pinMode(SCL, OUTPUT);
     pinMode(SDA, OUTPUT);
@@ -55,7 +56,8 @@ unsigned char DS1307_I2C::I2C_w(unsigned char dat)
     digitalWrite(SCL, 0);
     return dat;
 }
-unsigned char DS1307_I2C::I2C_r(void)
+
+unsigned char DS1307::I2C_r(void)
 {
     pinMode(SCL, OUTPUT);
     pinMode(SDA, INPUT);
@@ -78,7 +80,7 @@ unsigned char DS1307_I2C::I2C_r(void)
 //************************I2C-END***************************//
 
 //********************DS1307****************************//
-unsigned char DS1307_I2C::DS_r(unsigned char addr)
+unsigned char DS1307::DS_r(unsigned char addr)
 {
     unsigned int temp, ret;
     I2C_start();   /* Start i2c bus */
@@ -95,7 +97,7 @@ unsigned char DS1307_I2C::DS_r(unsigned char addr)
     return ret;
 }
 
-void DS1307_I2C::DS_W(unsigned char addr, unsigned char dat)
+void DS1307::DS_W(unsigned char addr, unsigned char dat)
 {
     unsigned int temp;
 

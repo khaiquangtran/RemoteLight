@@ -1,5 +1,5 @@
-#include "lcd74595.h"
-
+#ifndef LCD74595_H_
+#define LCD74595_H_
 class LCD74595
 {
 public:
@@ -9,13 +9,16 @@ public:
   void LCDclear(void);
   void LCD2n(unsigned char x);
   void LCD1n(unsigned char x);
+  void LCDinit(void);
 
 private:
   void LCDSendByte(char d, char RS);
   void ShiftData(char temp);
-  void LCDinit(void);
+  void LCDputc(char c);
+
   byte Clock;
   byte Data;
   byte Latch;
-  
-}
+ };
+
+ #endif

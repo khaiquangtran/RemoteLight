@@ -60,8 +60,8 @@ private:
   long decodeRC6(decode_results *results);
   long decodeHash(decode_results *results);
   int compare(unsigned int oldval, unsigned int newval);
-  static void RecvIsr(); 
-} 
+  static void RecvIsr();
+}
 ;
 
 // Only used for testing; can remove virtual for shorter code

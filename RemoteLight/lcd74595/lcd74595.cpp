@@ -1,3 +1,5 @@
+#include "lcd74595.h"
+
 /*  Three Wire LCD Interface using 74HC595*/
 LCD74595::LCD74595(const byte ClockPin, const byte DataPin, const byte LatchPin)
 {

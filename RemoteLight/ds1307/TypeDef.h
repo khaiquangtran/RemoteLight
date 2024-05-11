@@ -1,134 +1,128 @@
-enum TimeStore : byte
-{
-    SEC = 0x00,
-    MIN,
-    HOUR,
-    DAY,
-    DATE,
-    MTH,
-    YEAR
-};
+#ifndef TYPEDEF_H_
+#define TYPEDEF_H_
 
-enum SetupStore : byte
-{
-    SecondFisrt_1 = 0x08,
-    MinuteFisrt_1 = 0x09,
-    HourFisrt_1 = 0x0A,
-    SwitchFirst_1 = 0x0B,
+#define N(x) x + 1
 
-    SecondFisrt_2 = 0x0C,
-    MinuteFisrt_2 = 0x0D,
-    HourFisrt_2 = 0x0E,
-    SwitchFirst_2 = 0x0F,
+#define SEC     0x00
+#define MIN     N(SEC)
+#define HOUR    N(MIN)
+#define DAY     N(HOUR)
+#define DATE    N(DAY)
+#define MTH     N(DATE)
+#define YEAR    N(MTH)
 
-    SecondSecond_1 = 0x10,
-    MinuteSecond_1 = 0x11,
-    HourSecond_1 = 0x12,
-    SwitchSecond_1 = 0x13,
+#define SecondFisrt_1   0x08
+#define MinuteFisrt_1   N(SecondFisrt_1)
+#define HourFisrt_1     N(MinuteFisrt_1)
+#define SwitchFirst_1   N(HourFisrt_1)
 
-    SecondSecond_2 = 0x14,
-    MinuteSecond_2 = 0x15,
-    HourSecond_2 = 0x16,
-    SwitchSecond_2 = 0x17,
+#define SecondFisrt_2   0x0C
+#define MinuteFisrt_2   N(SecondFisrt_2)
+#define HourFisrt_2     N(MinuteFisrt_2)
+#define SwitchFirst_2   N(HourFisrt_2)
 
-    SecondThird_1 = 0x18,
-    MinuteThird_1 = 0x19,
-    HourThird_1 = 0x1A,
-    SwitchThird_1 = 0x1B,
+#define SecondSecond_1  0x10
+#define MinuteSecond_1  N(SecondSecond_1)
+#define HourSecond_1    N(MinuteSecond_1)
+#define SwitchSecond_1  N(HourSecond_1)
 
-    SecondThird_2 = 0x1C,
-    MinuteThird_2 = 0x1D,
-    HourThird_2 = 0x1E,
-    SwitchThird_2 = 0x1F,
+#define SecondSecond_2  0x14
+#define MinuteSecond_2  N(SecondSecond_2)
+#define HourSecond_2    N(MinuteSecond_2)
+#define SwitchSecond_2  N(HourSecond_2)
 
-    SecondFourth_1 = 0x20,
-    MinuteFourth_1 = 0x21,
-    HourFourth_1 = 0x22,
-    SwitchFourth_1 = 0x23,
+#define SecondThird_1   0x18
+#define MinuteThird_1   N(SecondThird_1)
+#define HourThird_1     N(MinuteThird_1)
+#define SwitchThird_1   N(HourThird_1)
 
-    SecondFourth_2 = 0x24,
-    MinuteFourth_2 = 0x25,
-    HourFourth_2 = 0x26,
-    SwitchFourth_2 = 0x27,
+#define SecondThird_2   0x1C
+#define MinuteThird_2   N(SecondThird_2)
+#define HourThird_2     N(MinuteThird_2)
+#define SwitchThird_2   N(HourThird_2)
 
-    PreSecond = 0x2C,
-    PreMinute = 0x2D,
-    PreHour = 0x2E,
-    Tampday = 0x2f,
-};
+#define SecondFourth_1  0x20
+#define MinuteFourth_1  N(SecondFourth_1)
+#define HourFourth_1    N(MinuteFourth_1)
+#define SwitchFourth_1  N(HourFourth_1)
 
-struct Light
-{
-    const byte Light1 = P2_3;
-    const byte Light2 = P2_4;
-    const byte Light3 = P2_5;
-    const byte Light4 = P2_6;
-    const byte LightLCD = P2_7;
+#define SecondFourth_2  0x24
+#define MinuteFourth_2  N(SecondFourth_2)
+#define HourFourth_2    N(MinuteFourth_2)
+#define SwitchFourth_2  N(HourFourth_2)
 
-    const byte ButtonLight1 = P2_0;
-    const byte ButtonLight2 = P2_1;
-    const byte ButtonLight3 = P2_2;
-};
+#define PreSecond   0x2C
+#define PreMinute   N(PreSecond)
+#define PreHour     N(PreMinute)
+#define Tampday     N(PreHour)
 
-enum ButtonCode : unsigned long
-{
-    Button1 = 0xFF807F,
-    Button2 = 0xFF40BF,
-    Button3 = 0xFFC03F,
-    Button4 = 0xFF20DF,
-    Button5 = 0xFFA05F,
-    Button6 = 0xFF609F,
+#define Light1      P2_3
+#define Light2      P2_4
+#define Light3      P2_5
+#define Light4      P2_6
+#define LightLCD    P2_7
 
-    ButtonUp = 0xFFE21D,
-    ButtonDown = 0xFFD22D,
-    ButtonRight = 0xFF52AD,
-    ButtonLeft = 0xFF12ED,
+#define ButtonLight1 P2_0
+#define ButtonLight2 P2_1
+#define ButtonLight3 P2_2
 
-    ButtonOk = 0xFF926D,
-    ButtonMenu = 0xFFB24D,
-    ButtonApp = 0xFF6A95
-}
+#define Button1 0xFF807F
+#define Button2 0xFF40BF
+#define Button3 0xFFC03F
+#define Button4 0xFF20DF
+#define Button5 0xFFA05F
+#define Button6 0xFF609F
+
+#define ButtonUp    0xFFE21D
+#define ButtonDown  0xFFD22D
+#define ButtonRight 0xFF52AD
+#define ButtonLeft  0xFF12ED
+
+#define ButtonOk    0xFF926D
+#define ButtonMenu  0xFFB24D
+#define ButtonApp   0xFF6A95
 
 enum ListSetupTime : byte
 {
-    day = 0x00,
-    date = 0x01,
-    month = 0x02,
-    year = 0x03,
-    hour = 0x04,
-    minute = 0x05,
-    second = 0x06,
-    quit = 0x07
-}
+    daye    = 0x00,
+    date    = 0x01,
+    month   = 0x02,
+    year    = 0x03,
+    hour    = 0x04,
+    minute  = 0x05,
+    second  = 0x06,
+    quit    = 0x07
+};
 
 enum ListSetupTimer : byte
 {
-    switch1 = 0x00,
-    hour1 = 0x01,
-    minute1 = 0x02,
-    second1 = 0x03,
-    switch2 = 0x04,
-    hour2 = 0x05,
-    minute2 = 0x06,
-    second2 = 0x07,
-    none = 0xFF
-}
+    switch1     = 0x00,
+    hour1       = 0x01,
+    minute1     = 0x02,
+    second1     = 0x03,
+    switch2     = 0x04,
+    hour2       = 0x05,
+    minute2     = 0x06,
+    second2     = 0x07,
+    none        = 0xFF
+};
 
-enum OrderLight : byte {
-    Light1 = 0,
-    Light2,
-    Light3,
-    Light4,
-    None
-}
+enum OrderLight : byte
+{
+    OrderLight1 = 0,
+    OrderLight2,
+    OrderLight3,
+    OrderLight4,
+    OrderNone
+};
 
 enum UpDown : byte
 {
-    Quit = 0x04,
-    Up = 0x03,
-    None = 0x02,
-    Down = 0x01
-}
+    Quit    = 0x04,
+    Up      = 0x03,
+    None    = 0x02,
+    Down    = 0x01
+};
 
 #define secondMax 59
 #define secondMin 0
@@ -156,29 +150,25 @@ enum UpDown : byte
 
 #define NumberDayAdjustment 4
 
-enum Row : byte
-{
-    One = 0x00,
-    Two = 0x01
-}
+#define RowOne  0x00
+#define RowTwo  0x01
 
-enum Column : byte
-{
-    Zero = 0x00,
-    One,
-    Two,
-    Three,
-    Four,
-    Five,
-    Six,
-    Seven,
-    Eight,
-    Nine,
-    Ten,
-    Eleven,
-    Twelve,
-    Thirteen,
-    Fourteen,
-    Fifteen,
-    Sixteen
-}
+#define Zero        0x00
+#define One         N(Zero)
+#define Two         N(One)
+#define Three       N(Two)
+#define Four        N(Three)
+#define Five        N(Four)
+#define Six         N(Five)
+#define Seven       N(Six)
+#define Eight       N(Seven)
+#define Nine        N(Eight)
+#define Ten         N(Nine)
+#define Eleven      N(Ten)
+#define Twelve      N(Eleven)
+#define Thirteen    N(Twelve)
+#define Fourteen    N(Thirteen)
+#define Fifteen     N(Fourteen)
+#define Sixteen     N(Fifteen)
+
+#endif
