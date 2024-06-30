@@ -18,7 +18,7 @@
 
 // NOTE: launchpad with a M430G2553
 
-#define IR_USE_TIMERA 
+#define IR_USE_TIMERA
 
 // Clock freq in kilohertz
 // Defined because using F_CPU in TIMER_CONFIG_KHZ does not work.
@@ -27,9 +27,9 @@
 #define FOSC 16000
 
 #ifdef F_CPU
-#define SYSCLOCK F_CPU     // main MSP430 clock  
+#define SYSCLOCK F_CPU     // main MSP430 clock
 #else
-#define SYSCLOCK 16000000  
+#define SYSCLOCK 16000000
 #endif
 
 #define ERR 0

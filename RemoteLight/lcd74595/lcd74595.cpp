@@ -6,7 +6,6 @@ LCD74595::LCD74595(const byte ClockPin, const byte DataPin, const byte LatchPin)
     Clock = ClockPin;
     Data = DataPin;
     Latch = LatchPin;
-    LCDinit();
 }
 
 //=============================================================

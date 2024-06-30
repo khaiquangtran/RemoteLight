@@ -12,11 +12,10 @@ app app1;
 void setup()
 {
   // put your setup code here, to run once:
-  app1.config();
   app1.init();
 }
 void loop()
 {
   // put your main code here, to run repeatedly:
-  app1.run();
+  //app1.run();
 }

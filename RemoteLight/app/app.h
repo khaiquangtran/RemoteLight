@@ -5,13 +5,11 @@
 #include "../lcd74595/lcd74595.h"
 #include "../ds1307/ds1307.h"
 #include "../IRremote/IRremote.h"
-
 class app
 {
 public:
-    app() : lcd74595(P1_0, P1_1, P1_2),
-            ds1307(P1_6, P1_7),
-            irrecv(P1_5){};
+    app();
+    ~app();
     void init();
     void run();
     void config();
@@ -29,9 +27,9 @@ private:
     static void onOffLight2();
     static void onOffLight3();
 
-    LCD74595 lcd74595;
-    DS1307 ds1307;
-    IRrecv irrecv;
+    LCD74595* lcd74595;
+    DS1307* ds1307;
+    IRrecv* irrecv;
     decode_results results;
     byte sec;
     byte h24;

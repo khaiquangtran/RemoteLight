@@ -1,16 +1,31 @@
 #include "app.h"
 
+app::app()
+{
+  lcd74595 = new LCD74595(P1_0, P1_1, P1_2);
+  ds1307 = new DS1307(P1_6, P1_7);
+  irrecv = new IRrecv(P1_5);
+}
+
+app::~app()
+{
+  delete lcd74595;
+  delete ds1307;
+  delete irrecv;
+}
+
 void app::init()
 {
-  irrecv.enableIRIn();
-  lcd74595.LCDinit();
-  lcd74595.LCDgotoxy(0, 0);
-  lcd74595.LCDputs("    WELCOME     ");
-  lcd74595.LCDgotoxy(0, 1);
-  lcd74595.LCDputs("KHAI'S EQUIPMENT");
+  // config();
+  // irrecv->enableIRIn();
+  lcd74595->LCDinit();
+  lcd74595->LCDgotoxy(0, 0);
+  lcd74595->LCDputs("    WELCOME     ");
+  lcd74595->LCDgotoxy(0, 1);
+  lcd74595->LCDputs("KHAI'S EQUIPMENT");
   delay(1500);
-  digitalWrite(LightLCD, LOW);
-  lcd74595.LCDclear();
+  /*digitalWrite(LightLCD, LOW);
+  lcd74595->LCDclear();
   pinMode(ButtonLight1, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(ButtonLight1), onOffLight1, FALLING);
   pinMode(ButtonLight2, INPUT_PULLUP);
@@ -18,26 +33,26 @@ void app::init()
   pinMode(ButtonLight3, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(ButtonLight3), onOffLight3, FALLING);
 
-  preSec = ds1307.DS_r(PreSecond);
+  preSec = ds1307->DS_r(PreSecond);
   variabilitySecond = preSec;
-  preMin = ds1307.DS_r(PreMinute);
+  preMin = ds1307->DS_r(PreMinute);
   variabilityMinute = preMin;
-  preH24 = ds1307.DS_r(PreHour);
+  preH24 = ds1307->DS_r(PreHour);
   variabilityHour = preH24;
-  tamp_day = ds1307.DS_r(Tampday);
-  previousDay = ds1307.DS_r(DAY);
+  tamp_day = ds1307->DS_r(Tampday);
+  previousDay = ds1307->DS_r(DAY);
 
-  previousSec = ds1307.DS_r(SEC);
+  previousSec = ds1307->DS_r(SEC);
   tamp_sec = 0;
-  flagDislayLCD = 1;
+  flagDislayLCD = 1;*/
 
-  /*ds1307.DS_W(0x00,0); //sec
-  ds1307.DS_W(0x01,0);  //min
-  ds1307.DS_W(0x02,4);  //h24
-  ds1307.DS_W(0x03,7);  //dat
-  ds1307.DS_W(0x04,23);  //date
-  ds1307.DS_W(0x05,7); //moth
-  ds1307.DS_W(0x06,22); //year*/
+  /*ds1307->DS_W(0x00,0); //sec
+  ds1307->DS_W(0x01,0);  //min
+  ds1307->DS_W(0x02,4);  //h24
+  ds1307->DS_W(0x03,7);  //dat
+  ds1307->DS_W(0x04,23);  //date
+  ds1307->DS_W(0x05,7); //moth
+  ds1307->DS_W(0x06,22); //year*/
 }
 
 void app::config()
@@ -60,9 +75,9 @@ void app::run()
   read_DS();
   mode_time_adjustment();
   mode_clear_lcd_display();
-  if (irrecv.decode(&results))
+  if (irrecv->decode(&results))
   {
-    irrecv.resume();
+    irrecv->resume();
     switch (results.value)
     {
     case ButtonApp:
@@ -153,24 +168,24 @@ void app::onOffLight3()
 
 void app::read_DS()
 {
-  sec = ds1307.DS_r(SEC);
+  sec = ds1307->DS_r(SEC);
   if (sec != variabilitySecond)
   {
-    min = ds1307.DS_r(MIN);
+    min = ds1307->DS_r(MIN);
     mode_on_off();
     if (flagDislayLCD == 1)
       show_DS();
     variabilitySecond = sec;
     if (min != variabilityMinute)
     {
-      h24 = ds1307.DS_r(HOUR);
+      h24 = ds1307->DS_r(HOUR);
       variabilityMinute = min;
       if (h24 != variabilityHour)
       {
-        day = ds1307.DS_r(DAY);
-        dt = ds1307.DS_r(DATE);
-        mth = ds1307.DS_r(MTH);
-        y = ds1307.DS_r(YEAR);
+        day = ds1307->DS_r(DAY);
+        dt = ds1307->DS_r(DATE);
+        mth = ds1307->DS_r(MTH);
+        y = ds1307->DS_r(YEAR);
         variabilityHour = h24;
       }
     }
@@ -179,47 +194,47 @@ void app::read_DS()
 
 void app::show_DS()
 {
-  lcd74595.LCDgotoxy(0, 0);
-  lcd74595.LCDputs(day[thu]);
-  lcd74595.LCDgotoxy(Three, RowOne);
-  lcd74595.LCDputs(" ");
-  lcd74595.LCDgotoxy(Four, RowOne);
-  lcd74595.LCD2n(dt);
-  lcd74595.LCDgotoxy(Six, RowOne);
-  lcd74595.LCDputs("/");
-  lcd74595.LCDgotoxy(Seven, RowOne);
-  lcd74595.LCD2n(mth);
-  lcd74595.LCDgotoxy(Nine, RowOne);
-  lcd74595.LCDputs("/20");
-  lcd74595.LCDgotoxy(Twelve, RowOne);
-  lcd74595.LCD2n(y);
-  lcd74595.LCDgotoxy(Fourteen, RowOne);
-  lcd74595.LCDputs("   ");
+  lcd74595->LCDgotoxy(0, 0);
+  lcd74595->LCDputs(day[thu]);
+  lcd74595->LCDgotoxy(Three, RowOne);
+  lcd74595->LCDputs(" ");
+  lcd74595->LCDgotoxy(Four, RowOne);
+  lcd74595->LCD2n(dt);
+  lcd74595->LCDgotoxy(Six, RowOne);
+  lcd74595->LCDputs("/");
+  lcd74595->LCDgotoxy(Seven, RowOne);
+  lcd74595->LCD2n(mth);
+  lcd74595->LCDgotoxy(Nine, RowOne);
+  lcd74595->LCDputs("/20");
+  lcd74595->LCDgotoxy(Twelve, RowOne);
+  lcd74595->LCD2n(y);
+  lcd74595->LCDgotoxy(Fourteen, RowOne);
+  lcd74595->LCDputs("   ");
 
-  lcd74595.LCDgotoxy(Zero, RowTwo);
-  lcd74595.LCDputs("Time: ");
-  lcd74595.LCDgotoxy(Six, RowTwo);
-  lcd74595.LCD2n(h24);
-  lcd74595.LCDgotoxy(Eight, RowTwo);
-  lcd74595.LCDputs(":");
-  lcd74595.LCDgotoxy(Nine, RowTwo);
-  lcd74595.LCD2n(min);
-  lcd74595.LCDgotoxy(Eleven, RowTwo);
-  lcd74595.LCDputs(":");
-  lcd74595.LCDgotoxy(Twelve, RowTwo);
-  lcd74595.LCD2n(sec);
-  lcd74595.LCDgotoxy(Fourteen, RowTwo);
-  lcd74595.LCDputs("   ");
+  lcd74595->LCDgotoxy(Zero, RowTwo);
+  lcd74595->LCDputs("Time: ");
+  lcd74595->LCDgotoxy(Six, RowTwo);
+  lcd74595->LCD2n(h24);
+  lcd74595->LCDgotoxy(Eight, RowTwo);
+  lcd74595->LCDputs(":");
+  lcd74595->LCDgotoxy(Nine, RowTwo);
+  lcd74595->LCD2n(min);
+  lcd74595->LCDgotoxy(Eleven, RowTwo);
+  lcd74595->LCDputs(":");
+  lcd74595->LCDgotoxy(Twelve, RowTwo);
+  lcd74595->LCD2n(sec);
+  lcd74595->LCDgotoxy(Fourteen, RowTwo);
+  lcd74595->LCDputs("   ");
 }
 
 void app::setup_time()
 {
-  lcd74595.LCDgotoxy(Zero, RowOne);
-  lcd74595.LCDputs("    CAI DAT     ");
-  lcd74595.LCDgotoxy(Zero, RowOne);
-  lcd74595.LCDputs("   THOI GIAN    ");
+  lcd74595->LCDgotoxy(Zero, RowOne);
+  lcd74595->LCDputs("    CAI DAT     ");
+  lcd74595->LCDgotoxy(Zero, RowOne);
+  lcd74595->LCDputs("   THOI GIAN    ");
   delay(1500);
-  lcd74595.LCDclear();
+  lcd74595->LCDclear();
   show_DS();
   byte flagLoop = 1;
   ListSetupTime flagMoveLeftRight = (ListSetupTime)daye;
@@ -227,9 +242,9 @@ void app::setup_time()
 
   while (flagLoop == 1)
   {
-    if (irrecv.decode(&results))
+    if (irrecv->decode(&results))
     {
-      irrecv.resume();
+      irrecv->resume();
       switch (results.value)
       {
       case ButtonUp:
@@ -263,13 +278,13 @@ void app::setup_time()
         flagLoop = 0;
         flagUpDown = (UpDown)Quit;
         flagMoveLeftRight = (ListSetupTime)quit;
-        ds1307.DS_W(SEC,  sec);  // sec
-        ds1307.DS_W(MIN,  min);  // min
-        ds1307.DS_W(HOUR, h24); // h24
-        ds1307.DS_W(DAY,  day);  // dat
-        ds1307.DS_W(DATE, dt);  // date
-        ds1307.DS_W(MTH,  mth);  // moth
-        ds1307.DS_W(YEAR, y);   // year
+        ds1307->DS_W(SEC,  sec);  // sec
+        ds1307->DS_W(MIN,  min);  // min
+        ds1307->DS_W(HOUR, h24); // h24
+        ds1307->DS_W(DAY,  day);  // dat
+        ds1307->DS_W(DATE, dt);  // date
+        ds1307->DS_W(MTH,  mth);  // moth
+        ds1307->DS_W(YEAR, y);   // year
         if (sec <= 12)
           preSec = sec + 11;
         else
@@ -277,18 +292,18 @@ void app::setup_time()
         preMin = min;
         preH24 = h24;
         tamp_day = 0;
-        ds1307.DS_W(PreSecond,  preSec);
-        ds1307.DS_W(PreMinute,  preMin);
-        ds1307.DS_W(PreHour,    preH24);
-        ds1307.DS_W(Tampday,    tamp_day);
-        lcd74595.LCDclear();
+        ds1307->DS_W(PreSecond,  preSec);
+        ds1307->DS_W(PreMinute,  preMin);
+        ds1307->DS_W(PreHour,    preH24);
+        ds1307->DS_W(Tampday,    tamp_day);
+        lcd74595->LCDclear();
         delay(200);
-        lcd74595.LCDgotoxy(Zero, RowOne);
-        lcd74595.LCDputs("    CAI DAT     ");
-        lcd74595.LCDgotoxy(Zero, 1);
-        lcd74595.LCDputs("   HOAN  TAT   ");
+        lcd74595->LCDgotoxy(Zero, RowOne);
+        lcd74595->LCDputs("    CAI DAT     ");
+        lcd74595->LCDgotoxy(Zero, 1);
+        lcd74595->LCDputs("   HOAN  TAT   ");
         delay(1000);
-        lcd74595.LCDclear();
+        lcd74595->LCDclear();
         flagDislayLCD = 1;
         break;
       }
@@ -309,15 +324,15 @@ void app::setup_time()
           day++;
         if (day > dayMax)
           day = dayMin;
-        lcd74595.LCDgotoxy(Zero, RowOne);
-        lcd74595.LCDputs(day[thu]);
+        lcd74595->LCDgotoxy(Zero, RowOne);
+        lcd74595->LCDputs(day[thu]);
         flagUpDown = (UpDown)None;
         break;
       }
       case (UpDown)None:
       {
-        // lcd74595.LCDgotoxy(0, 0);
-        // lcd74595.LCDputs(day[thu]);
+        // lcd74595->LCDgotoxy(0, 0);
+        // lcd74595->LCDputs(day[thu]);
         break;
       }
       case (UpDown)Down:
@@ -326,8 +341,8 @@ void app::setup_time()
           day--;
         if (day < dayMin)
           day = dayMax;
-        lcd74595.LCDgotoxy(Zero, RowOne);
-        lcd74595.LCDputs(day[thu]);
+        lcd74595->LCDgotoxy(Zero, RowOne);
+        lcd74595->LCDputs(day[thu]);
         flagUpDown = (UpDown)None;
         break;
       }
@@ -346,15 +361,15 @@ void app::setup_time()
           dt++;
         if (dt > dateMax)
           dt = dateMin;
-        lcd74595.LCDgotoxy(Four, RowOne);
-        lcd74595.LCD2n(dt);
+        lcd74595->LCDgotoxy(Four, RowOne);
+        lcd74595->LCD2n(dt);
         flagUpDown = (UpDown)None;
         break;
       }
       case (UpDown)None:
       {
-        // lcd74595.LCDgotoxy(4, 0);
-        // lcd74595.LCD2n(dt);
+        // lcd74595->LCDgotoxy(4, 0);
+        // lcd74595->LCD2n(dt);
         break;
       }
       case (UpDown)Down:
@@ -363,8 +378,8 @@ void app::setup_time()
           dt--;
         if (dt < dateMin)
           dt = dateMax;
-        lcd74595.LCDgotoxy(Four, RowOne);
-        lcd74595.LCD2n(dt);
+        lcd74595->LCDgotoxy(Four, RowOne);
+        lcd74595->LCD2n(dt);
         flagUpDown = (UpDown)None;
         break;
       }
@@ -383,15 +398,15 @@ void app::setup_time()
           mth++;
         if (mth > monthMax)
           mth = monthMin;
-        lcd74595.LCDgotoxy(Seven, RowOne);
-        lcd74595.LCD2n(mth);
+        lcd74595->LCDgotoxy(Seven, RowOne);
+        lcd74595->LCD2n(mth);
         flagUpDown = (UpDown)None;
         break;
       }
       case (UpDown)None:
       {
-        // lcd74595.LCDgotoxy(7, 0);
-        // lcd74595.LCD2n(mth);
+        // lcd74595->LCDgotoxy(7, 0);
+        // lcd74595->LCD2n(mth);
         break;
       }
       case (UpDown)Down:
@@ -400,8 +415,8 @@ void app::setup_time()
           mth--;
         if (mth < monthMin)
           mth = monthMax;
-        lcd74595.LCDgotoxy(Seven, RowOne);
-        lcd74595.LCD2n(mth);
+        lcd74595->LCDgotoxy(Seven, RowOne);
+        lcd74595->LCD2n(mth);
         flagUpDown = (UpDown)None;
         break;
       }
@@ -420,15 +435,15 @@ void app::setup_time()
           y++;
         if (y > yearMax)
           y = yearMin;
-        lcd74595.LCDgotoxy(Twelve, RowOne);
-        lcd74595.LCD2n(y);
+        lcd74595->LCDgotoxy(Twelve, RowOne);
+        lcd74595->LCD2n(y);
         flagUpDown = (UpDown)None;
         break;
       }
       case (UpDown)None:
       {
-        // lcd74595.LCDgotoxy(12, 0);
-        // lcd74595.LCD2n(y);
+        // lcd74595->LCDgotoxy(12, 0);
+        // lcd74595->LCD2n(y);
         break;
       }
       case (UpDown)Down:
@@ -437,8 +452,8 @@ void app::setup_time()
           y--;
         if (y < yearMin)
           y = yearMax;
-        lcd74595.LCDgotoxy(Twelve, RowOne);
-        lcd74595.LCD2n(y);
+        lcd74595->LCDgotoxy(Twelve, RowOne);
+        lcd74595->LCD2n(y);
         flagUpDown = (UpDown)None;
         break;
       }
@@ -457,15 +472,15 @@ void app::setup_time()
           h24++;
         if (h24 > hourMax)
           h24 = hourMin;
-        lcd74595.LCDgotoxy(Six, RowTwo);
-        lcd74595.LCD2n(h24);
+        lcd74595->LCDgotoxy(Six, RowTwo);
+        lcd74595->LCD2n(h24);
         flagUpDown = (UpDown)None;
         break;
       }
       case (UpDown)None:
       {
-        // lcd74595.LCDgotoxy(6, 1);
-        // lcd74595.LCD2n(h24);
+        // lcd74595->LCDgotoxy(6, 1);
+        // lcd74595->LCD2n(h24);
         break;
       }
       case (UpDown)Down:
@@ -474,8 +489,8 @@ void app::setup_time()
           h24--;
         if (h24 < hourMin)
           h24 = hourMax;
-        lcd74595.LCDgotoxy(Six, RowTwo);
-        lcd74595.LCD2n(h24);
+        lcd74595->LCDgotoxy(Six, RowTwo);
+        lcd74595->LCD2n(h24);
         flagUpDown = (UpDown)None;
         break;
       }
@@ -493,15 +508,15 @@ void app::setup_time()
           min++;
         if (min > minuteMax)
           min = minuteMin;
-        lcd74595.LCDgotoxy(Nine, RowTwo);
-        lcd74595.LCD2n(min);
+        lcd74595->LCDgotoxy(Nine, RowTwo);
+        lcd74595->LCD2n(min);
         flagUpDown = (UpDown)None;
         break;
       }
       case (UpDown)None:
       {
-        // lcd74595.LCDgotoxy(9, 1);
-        // lcd74595.LCD2n(min);
+        // lcd74595->LCDgotoxy(9, 1);
+        // lcd74595->LCD2n(min);
         break;
       }
       case (UpDown)Down:
@@ -510,8 +525,8 @@ void app::setup_time()
           min--;
         if (min < minuteMin)
           min = minuteMax;
-        lcd74595.LCDgotoxy(Nine, RowTwo);
-        lcd74595.LCD2n(min);
+        lcd74595->LCDgotoxy(Nine, RowTwo);
+        lcd74595->LCD2n(min);
         flagUpDown = (UpDown)None;
         break;
       }
@@ -530,15 +545,15 @@ void app::setup_time()
           sec++;
         if (sec > secondMax)
           sec = secondMin;
-        lcd74595.LCDgotoxy(Twelve, RowTwo);
-        lcd74595.LCD2n(sec);
+        lcd74595->LCDgotoxy(Twelve, RowTwo);
+        lcd74595->LCD2n(sec);
         flagUpDown = (UpDown)None;
         break;
       }
       case (UpDown)None:
       {
-        // lcd74595.LCDgotoxy(12, 1);
-        // lcd74595.LCD2n(sec);
+        // lcd74595->LCDgotoxy(12, 1);
+        // lcd74595->LCD2n(sec);
         break;
       }
       case (UpDown)Down:
@@ -547,8 +562,8 @@ void app::setup_time()
           sec--;
         if (sec < secondMin)
           sec = secondMax;
-        lcd74595.LCDgotoxy(Twelve, RowTwo);
-        lcd74595.LCD2n(sec);
+        lcd74595->LCDgotoxy(Twelve, RowTwo);
+        lcd74595->LCD2n(sec);
         flagUpDown = (UpDown)None;
         break;
       }
@@ -565,15 +580,15 @@ void app::setup_time()
 
 void app::set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned char inMinute1, unsigned char inMinute2, unsigned char inHour1, unsigned char inHour2, unsigned char inSwitch1, unsigned char inSwitch2, OrderLight flagChooseLight, ListSetupTimer &flagMoveLeftRight, UpDown &flagUpDown)
 {
-  byte Second1 = ds1307.DS_r(inSecond1);
-  byte Minute1 = ds1307.DS_r(inMinute1);
-  byte Hour1 = ds1307.DS_r(inHour1);
-  byte Switch1 = ds1307.DS_r(inSwitch1);
+  byte Second1 = ds1307->DS_r(inSecond1);
+  byte Minute1 = ds1307->DS_r(inMinute1);
+  byte Hour1 = ds1307->DS_r(inHour1);
+  byte Switch1 = ds1307->DS_r(inSwitch1);
 
-  byte Second2 = ds1307.DS_r(inSecond2);
-  byte Minute2 = ds1307.DS_r(inMinute2);
-  byte Hour2 = ds1307.DS_r(inHour2);
-  byte Switch2 = ds1307.DS_r(inSwitch2);
+  byte Second2 = ds1307->DS_r(inSecond2);
+  byte Minute2 = ds1307->DS_r(inMinute2);
+  byte Hour2 = ds1307->DS_r(inHour2);
+  byte Switch2 = ds1307->DS_r(inSwitch2);
 
   switch (flagMoveLeftRight)
   {
@@ -584,14 +599,14 @@ void app::set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned ch
     case (UpDown)Up:
     {
       Switch1 = ON;
-      ds1307.DS_W(inSwitch1, Switch1);
+      ds1307->DS_W(inSwitch1, Switch1);
       flagUpDown = (UpDown)None;
       break;
     }
     case (UpDown)Down:
     {
       Switch1 = OFF;
-      ds1307.DS_W(inSwitch1, Switch1);
+      ds1307->DS_W(inSwitch1, Switch1);
       flagUpDown = (UpDown)None;
       break;
     }
@@ -610,7 +625,7 @@ void app::set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned ch
         Hour1++;
       if (Hour1 > hourMax)
         Hour1 = hourMin;
-      ds1307.DS_W(inHour1, Hour1);
+      ds1307->DS_W(inHour1, Hour1);
       flagUpDown = (UpDown)None;
       break;
     }
@@ -620,7 +635,7 @@ void app::set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned ch
         Hour1--;
       if (Hour1 < hourMin)
         Hour1 = hourMax;
-      ds1307.DS_W(inHour1, Hour1);
+      ds1307->DS_W(inHour1, Hour1);
       flagUpDown = (UpDown)None;
       break;
     }
@@ -638,7 +653,7 @@ void app::set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned ch
         Minute1++;
       if (Minute1 > minuteMax)
         Minute1 = minuteMin;
-      ds1307.DS_W(inMinute1, Minute1);
+      ds1307->DS_W(inMinute1, Minute1);
       flagUpDown = (UpDown)None;
       break;
     }
@@ -648,7 +663,7 @@ void app::set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned ch
         Minute1--;
       if (Minute1 < minuteMin)
         Minute1 = minuteMax;
-      ds1307.DS_W(inMinute1, Minute1);
+      ds1307->DS_W(inMinute1, Minute1);
       flagUpDown = (UpDown)None;
       break;
     }
@@ -666,7 +681,7 @@ void app::set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned ch
         Second1++;
       if (Second1 > secondMax)
         Second1 = secondMin;
-      ds1307.DS_W(inSecond1, Second1);
+      ds1307->DS_W(inSecond1, Second1);
       flagUpDown = (UpDown)None;
       break;
     }
@@ -676,7 +691,7 @@ void app::set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned ch
         Second1--;
       if (Second1 < secondMin)
         Second1 = secondMax;
-      ds1307.DS_W(inSecond1, Second1);
+      ds1307->DS_W(inSecond1, Second1);
       flagUpDown = (UpDown)None;
       break;
     }
@@ -691,14 +706,14 @@ void app::set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned ch
     case (UpDown)Up:
     {
       Switch2 = ON;
-      ds1307.DS_W(inSwitch2, Switch2);
+      ds1307->DS_W(inSwitch2, Switch2);
       flagUpDown = (UpDown)None;
       break;
     }
     case (UpDown)Down:
     {
       Switch2 = OFF;
-      ds1307.DS_W(inSwitch2, Switch2);
+      ds1307->DS_W(inSwitch2, Switch2);
       flagUpDown = (UpDown)None;
       break;
     }
@@ -717,7 +732,7 @@ void app::set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned ch
         Hour2++;
       if (Hour2 > hourMax)
         Hour2 = hourMin;
-      ds1307.DS_W(inHour2, Hour2);
+      ds1307->DS_W(inHour2, Hour2);
       flagUpDown = (UpDown)None;
       break;
     }
@@ -727,7 +742,7 @@ void app::set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned ch
         Hour2--;
       if (Hour2 < hourMin)
         Hour2 = hourMax;
-      ds1307.DS_W(inHour2, Hour2);
+      ds1307->DS_W(inHour2, Hour2);
       flagUpDown = (UpDown)None;
       break;
     }
@@ -746,7 +761,7 @@ void app::set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned ch
         Minute2++;
       if (Minute2 > minuteMax)
         Minute2 = minuteMin;
-      ds1307.DS_W(inMinute2, Minute2);
+      ds1307->DS_W(inMinute2, Minute2);
       flagUpDown = (UpDown)None;
       break;
     }
@@ -756,7 +771,7 @@ void app::set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned ch
         Minute2--;
       if (Minute2 < minuteMin)
         Minute2 = minuteMax;
-      ds1307.DS_W(inMinute2, Minute2);
+      ds1307->DS_W(inMinute2, Minute2);
       flagUpDown = (UpDown)None;
       break;
     }
@@ -775,7 +790,7 @@ void app::set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned ch
         Second2++;
       if (Second2 > secondMax)
         Second2 = secondMin;
-      ds1307.DS_W(inSecond2, Second2);
+      ds1307->DS_W(inSecond2, Second2);
       flagUpDown = (UpDown)None;
       break;
     }
@@ -785,7 +800,7 @@ void app::set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned ch
         Second2--;
       if (Second2 < secondMin)
         Second2 = secondMax;
-      ds1307.DS_W(inSecond2, Second2);
+      ds1307->DS_W(inSecond2, Second2);
       flagUpDown = (UpDown)None;
       break;
     }
@@ -798,70 +813,70 @@ void app::set_time(unsigned char inSecond1, unsigned char inSecond2, unsigned ch
     break;
   }
   flagMoveLeftRight = (ListSetupTimer)none;
-  Second1 = ds1307.DS_r(inSecond1);
-  Minute1 = ds1307.DS_r(inMinute1);
-  Hour1 = ds1307.DS_r(inHour1);
-  Switch1 = ds1307.DS_r(inSwitch1);
+  Second1 = ds1307->DS_r(inSecond1);
+  Minute1 = ds1307->DS_r(inMinute1);
+  Hour1 = ds1307->DS_r(inHour1);
+  Switch1 = ds1307->DS_r(inSwitch1);
 
-  Second2 = ds1307.DS_r(inSecond2);
-  Minute2 = ds1307.DS_r(inMinute2);
-  Hour2 = ds1307.DS_r(inHour2);
-  Switch2 = ds1307.DS_r(inSwitch2);
+  Second2 = ds1307->DS_r(inSecond2);
+  Minute2 = ds1307->DS_r(inMinute2);
+  Hour2 = ds1307->DS_r(inHour2);
+  Switch2 = ds1307->DS_r(inSwitch2);
 
-  lcd74595.LCDgotoxy(Zero, RowOne);
-  lcd74595.LCDputs("TGM");
-  lcd74595.LCDgotoxy(Three, RowOne);
-  lcd74595.LCD1n(flagChooseLight);
+  lcd74595->LCDgotoxy(Zero, RowOne);
+  lcd74595->LCDputs("TGM");
+  lcd74595->LCDgotoxy(Three, RowOne);
+  lcd74595->LCD1n(flagChooseLight);
   if (Switch1 == ON)
   {
-    lcd74595.LCDgotoxy(Four, RowOne);
-    lcd74595.LCDputs(" MO ");
+    lcd74595->LCDgotoxy(Four, RowOne);
+    lcd74595->LCDputs(" MO ");
   }
   else
   {
-    lcd74595.LCDgotoxy(Four, RowOne);
-    lcd74595.LCDputs(" TAT");
+    lcd74595->LCDgotoxy(Four, RowOne);
+    lcd74595->LCDputs(" TAT");
   }
-  lcd74595.LCDgotoxy(Eight, RowOne);
-  lcd74595.LCD2n(hour1);
-  lcd74595.LCDgotoxy(Ten, RowOne);
-  lcd74595.LCDputs(":");
-  lcd74595.LCDgotoxy(Eleven, RowOne);
-  lcd74595.LCD2n(minute1);
-  lcd74595.LCDgotoxy(Thirteen, RowOne);
-  lcd74595.LCDputs(":");
-  lcd74595.LCDgotoxy(Fourteen, RowOne);
-  lcd74595.LCD2n(second1);
+  lcd74595->LCDgotoxy(Eight, RowOne);
+  lcd74595->LCD2n(hour1);
+  lcd74595->LCDgotoxy(Ten, RowOne);
+  lcd74595->LCDputs(":");
+  lcd74595->LCDgotoxy(Eleven, RowOne);
+  lcd74595->LCD2n(minute1);
+  lcd74595->LCDgotoxy(Thirteen, RowOne);
+  lcd74595->LCDputs(":");
+  lcd74595->LCDgotoxy(Fourteen, RowOne);
+  lcd74595->LCD2n(second1);
 
-  lcd74595.LCDgotoxy(Three, RowTwo);
-  lcd74595.LCDputs("TGT");
-  lcd74595.LCDgotoxy(Three, RowTwo);
-  lcd74595.LCD1n(flagChooseLight);
+  lcd74595->LCDgotoxy(Three, RowTwo);
+  lcd74595->LCDputs("TGT");
+  lcd74595->LCDgotoxy(Three, RowTwo);
+  lcd74595->LCD1n(flagChooseLight);
   if (Switch2 == ON)
   {
-    lcd74595.LCDgotoxy(Four, RowTwo);
-    lcd74595.LCDputs(" MO ");
+    lcd74595->LCDgotoxy(Four, RowTwo);
+    lcd74595->LCDputs(" MO ");
   }
   else
   {
-    lcd74595.LCDgotoxy(Four, RowTwo);
-    lcd74595.LCDputs(" TAT");
+    lcd74595->LCDgotoxy(Four, RowTwo);
+    lcd74595->LCDputs(" TAT");
   }
-  lcd74595.LCDgotoxy(Eight, RowTwo);
-  lcd74595.LCD2n(hour2);
-  lcd74595.LCDgotoxy(Ten, RowTwo);
-  lcd74595.LCDputs(":");
-  lcd74595.LCDgotoxy(Eleven, RowTwo);
-  lcd74595.LCD2n(minute2);
-  lcd74595.LCDgotoxy(Thirteen, RowTwo);
-  lcd74595.LCDputs(":");
-  lcd74595.LCDgotoxy(Fourteen, RowTwo);
-  lcd74595.LCD2n(second2);
+  lcd74595->LCDgotoxy(Eight, RowTwo);
+  lcd74595->LCD2n(hour2);
+  lcd74595->LCDgotoxy(Ten, RowTwo);
+  lcd74595->LCDputs(":");
+  lcd74595->LCDgotoxy(Eleven, RowTwo);
+  lcd74595->LCD2n(minute2);
+  lcd74595->LCDgotoxy(Thirteen, RowTwo);
+  lcd74595->LCDputs(":");
+  lcd74595->LCDgotoxy(Fourteen, RowTwo);
+  lcd74595->LCD2n(second2);
 }
 
 void app::mode_set_timer_light()
 {
-  lcd74595.LCDclear();
+  lcd74595->LCDclear();
   byte flagLoop = 1;
   OrderLight flagChooseLight = (OrderLight)OrderNone;
   ListSetupTimer flagChooseTypeTime = (ListSetupTimer)none;
@@ -874,19 +889,19 @@ void app::mode_set_timer_light()
       if (flagDisplayLCD)
       {
         flagDisplayLCD = 0;
-        lcd74595.LCDgotoxy(0, 0);
-        lcd74595.LCDputs("CHON DEN CAI DAT:");
-        // lcd74595.LCDgotoxy(13, 0);
-        // lcd74595.LCD1n(_cond);
-        // lcd74595.LCDgotoxy(14, 0);
-        // lcd74595.LCDputs("  ");
-        lcd74595.LCDgotoxy(0, 1);
-        lcd74595.LCDputs("  1   2   3   4  ");
+        lcd74595->LCDgotoxy(0, 0);
+        lcd74595->LCDputs("CHON DEN CAI DAT:");
+        // lcd74595->LCDgotoxy(13, 0);
+        // lcd74595->LCD1n(_cond);
+        // lcd74595->LCDgotoxy(14, 0);
+        // lcd74595->LCDputs("  ");
+        lcd74595->LCDgotoxy(0, 1);
+        lcd74595->LCDputs("  1   2   3   4  ");
       }
 
-      if (irrecv.decode(&results))
+      if (irrecv->decode(&results))
       {
-        irrecv.resume();
+        irrecv->resume();
         switch (results.value) // press button
         {
         case Button1:
@@ -921,9 +936,9 @@ void app::mode_set_timer_light()
     }
     while (flagLoop == 2)
     {
-      if (irrecv.decode(&results))
+      if (irrecv->decode(&results))
       {
-        irrecv.resume();
+        irrecv->resume();
         switch (results.value)
         {
         case ButtonUp:
@@ -955,7 +970,7 @@ void app::mode_set_timer_light()
         case ButtonOk:
         {
           flagLoop = 1;
-          lcd74595.LCDclear();
+          lcd74595->LCDclear();
           break;
         }
         default:
@@ -1008,15 +1023,15 @@ void app::mode_time_adjustment()
   if ((previousDay > day || previousDay < day) && tamp_day < NumberDayAdjustment)
   {
     tamp_day++;
-    ds1307.DS_W(Tampday, tamp_day);
+    ds1307->DS_W(Tampday, tamp_day);
     previousDay = day;
   }
   if (tamp_day == 4 && preSec == sec && preMin == min && preH24 == h24)
   {
     sec = sec - 11; // tolerance time
-    ds1307.DS_W(SEC, sec);
+    ds1307->DS_W(SEC, sec);
     tamp_day = 0;
-    ds1307.DS_W(Tampday, tamp_day);
+    ds1307->DS_W(Tampday, tamp_day);
   }
 }
 
@@ -1031,17 +1046,17 @@ void app::mode_clear_lcd_display()
   {
     flagDislayLCD = 0;
     tamp_sec = 31;
-    lcd74595.LCDclear();
+    lcd74595->LCDclear();
   }
 }
 
 void app::mode_on_off()
 {
 
-  byte second = ds1307.DS_r(SecondFisrt_1);
-  byte minute = ds1307.DS_r(MinuteFisrt_1);
-  byte hour = ds1307.DS_r(HourFisrt_1);
-  byte sw = ds1307.DS_r(SwitchFirst_1);
+  byte second = ds1307->DS_r(SecondFisrt_1);
+  byte minute = ds1307->DS_r(MinuteFisrt_1);
+  byte hour = ds1307->DS_r(HourFisrt_1);
+  byte sw = ds1307->DS_r(SwitchFirst_1);
   //***********On light 1*******************
   if (sw == ON)
   {
@@ -1049,30 +1064,30 @@ void app::mode_on_off()
       digitalWrite(Light1, LOW);
   }
   //**********Off light 1*****************
-  second = ds1307.DS_r(SecondFisrt_2);
-  minute = ds1307.DS_r(MinuteFisrt_2);
-  hour = ds1307.DS_r(HourFisrt_2);
-  sw = ds1307.DS_r(SwitchFirst_2);
+  second = ds1307->DS_r(SecondFisrt_2);
+  minute = ds1307->DS_r(MinuteFisrt_2);
+  hour = ds1307->DS_r(HourFisrt_2);
+  sw = ds1307->DS_r(SwitchFirst_2);
   if (sw == ON)
   {
     if ((hour == h24) && (minute == min) && (second == sec))
       digitalWrite(Light1, HIGH);
   }
   //***********On light 2*******************
-  second = ds1307.DS_r(SecondSecond_1);
-  minute = ds1307.DS_r(MinuteSecond_1);
-  hour = ds1307.DS_r(HourSecond_1);
-  sw = ds1307.DS_r(SwitchSecond_1);
+  second = ds1307->DS_r(SecondSecond_1);
+  minute = ds1307->DS_r(MinuteSecond_1);
+  hour = ds1307->DS_r(HourSecond_1);
+  sw = ds1307->DS_r(SwitchSecond_1);
   if (sw == ON)
   {
     if ((hour == h24) && (minute == min) && (second == sec))
       digitalWrite(Light2, LOW);
   }
   //**********Off light 2*****************
-  second = ds1307.DS_r(SecondSecond_2);
-  minute = ds1307.DS_r(MinuteSecond_2);
-  hour = ds1307.DS_r(HourSecond_2);
-  sw = ds1307.DS_r(SwitchSecond_2);
+  second = ds1307->DS_r(SecondSecond_2);
+  minute = ds1307->DS_r(MinuteSecond_2);
+  hour = ds1307->DS_r(HourSecond_2);
+  sw = ds1307->DS_r(SwitchSecond_2);
   if (sw == ON)
   {
     if ((hour == h24) && (minute == min) && (second == sec))
@@ -1080,40 +1095,40 @@ void app::mode_on_off()
   }
 
   //***********On light 3*******************
-  second = ds1307.DS_r(SecondThird_1);
-  minute = ds1307.DS_r(MinuteThird_1);
-  hour = ds1307.DS_r(HourThird_1);
-  sw = ds1307.DS_r(SwitchThird_1);
+  second = ds1307->DS_r(SecondThird_1);
+  minute = ds1307->DS_r(MinuteThird_1);
+  hour = ds1307->DS_r(HourThird_1);
+  sw = ds1307->DS_r(SwitchThird_1);
   if (sw == ON)
   {
     if ((hour == h24) && (minute == min) && (second == sec))
       digitalWrite(Light3, LOW);
   }
   //**********Off light 3*****************
-  second = ds1307.DS_r(SecondThird_2);
-  minute = ds1307.DS_r(MinuteThird_2);
-  hour = ds1307.DS_r(HourThird_2);
-  sw = ds1307.DS_r(SwitchThird_2);
+  second = ds1307->DS_r(SecondThird_2);
+  minute = ds1307->DS_r(MinuteThird_2);
+  hour = ds1307->DS_r(HourThird_2);
+  sw = ds1307->DS_r(SwitchThird_2);
   if (sw == ON)
   {
     if ((hour == h24) && (minute == min) && (second == sec))
       digitalWrite(Light3, HIGH);
   }
   //***********On light 4*******************
-  second = ds1307.DS_r(SecondFourth_1);
-  minute = ds1307.DS_r(MinuteFourth_1);
-  hour = ds1307.DS_r(HourFourth_1);
-  sw = ds1307.DS_r(SwitchFourth_1);
+  second = ds1307->DS_r(SecondFourth_1);
+  minute = ds1307->DS_r(MinuteFourth_1);
+  hour = ds1307->DS_r(HourFourth_1);
+  sw = ds1307->DS_r(SwitchFourth_1);
   if (sw == ON)
   {
     if ((hour == h24) && (minute == min) && (second == sec))
       digitalWrite(Light4, LOW);
   }
   //**********Off light 4*****************
-  second = ds1307.DS_r(SecondFourth_2);
-  minute = ds1307.DS_r(MinuteFourth_2);
-  hour = ds1307.DS_r(HourFourth_2);
-  sw = ds1307.DS_r(SwitchFourth_2);
+  second = ds1307->DS_r(SecondFourth_2);
+  minute = ds1307->DS_r(MinuteFourth_2);
+  hour = ds1307->DS_r(HourFourth_2);
+  sw = ds1307->DS_r(SwitchFourth_2);
   if (sw == ON)
   {
     if ((hour == h24) && (minute == min) && (second == sec))
