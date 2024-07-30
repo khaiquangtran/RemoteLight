@@ -82,7 +82,7 @@ void IRsend::sendNEC(unsigned long data, int nbits)
     if (data & TOPBIT) {
       mark(NEC_BIT_MARK);
       space(NEC_ONE_SPACE);
-    } 
+    }
     else {
       mark(NEC_BIT_MARK);
       space(NEC_ZERO_SPACE);
@@ -102,7 +102,7 @@ void IRsend::sendSony(unsigned long data, int nbits) {
     if (data & TOPBIT) {
       mark(SONY_ONE_MARK);
       space(SONY_HDR_SPACE);
-    } 
+    }
     else {
       mark(SONY_ZERO_MARK);
       space(SONY_HDR_SPACE);
@@ -117,7 +117,7 @@ void IRsend::sendRaw(unsigned int buf[], int len, int hz)
   for (int i = 0; i < len; i++) {
     if (i & 1) {
       space(buf[i]);
-    } 
+    }
     else {
       mark(buf[i]);
     }
@@ -137,7 +137,7 @@ void IRsend::sendRC5(unsigned long data, int nbits)
     if (data & TOPBIT) {
       space(RC5_T1); // 1 is space, then mark
       mark(RC5_T1);
-    } 
+    }
     else {
       mark(RC5_T1);
       space(RC5_T1);
@@ -161,14 +161,14 @@ void IRsend::sendRC6(unsigned long data, int nbits)
     if (i == 3) {
       // double-wide trailer bit
       t = 2 * RC6_T1;
-    } 
+    }
     else {
       t = RC6_T1;
     }
     if (data & TOPBIT) {
       mark(t);
       space(t);
-    } 
+    }
     else {
       space(t);
       mark(t);
@@ -209,10 +209,10 @@ void IRsend::enableIROut(int khz) {
   // A few hours staring at the ATmega documentation and this will all make sense.
   // See my Secrets of Arduino PWM at http://arcfn.com/2009/07/secrets-of-arduino-pwm.html for details.
 
-  
+
   // Disable the Timer_A Interrupt (which is used for receiving IR)
   TIMER_DISABLE_INTR; //Timer_A Overflow Interrupt
-  
+
   TIMER_PIN_SELECT(); // P2.3 output and P2.3 option select (when TIMER_PWM_PIN is P2_3)
 
   pinMode(TIMER_PWM_PIN, OUTPUT);

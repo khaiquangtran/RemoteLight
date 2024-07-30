@@ -81,6 +81,7 @@
 #define ButtonOk    0xFF926D
 #define ButtonMenu  0xFFB24D
 #define ButtonApp   0xFF6A95
+#define ButtonBack  0xFF32CD
 
 enum ListSetupTime : byte
 {
@@ -104,7 +105,7 @@ enum ListSetupTimer : byte
     hour2       = 0x05,
     minute2     = 0x06,
     second2     = 0x07,
-    none        = 0xFF
+    none        = 0x0F
 };
 
 enum OrderLight : byte
@@ -113,7 +114,8 @@ enum OrderLight : byte
     OrderLight2,
     OrderLight3,
     OrderLight4,
-    OrderNone
+    OrderEmpty,
+    OrderOk
 };
 
 enum UpDown : byte
@@ -137,10 +139,10 @@ enum UpDown : byte
 #define yearMin 0
 
 #define monthMax 12
-#define monthMin 0
+#define monthMin 1
 
 #define dateMax 31
-#define dateMin 0
+#define dateMin 1
 
 #define dayMax 7
 #define dayMin 1
@@ -148,7 +150,7 @@ enum UpDown : byte
 #define ON 1
 #define OFF 0
 
-#define NumberDayAdjustment 4
+#define NumberDayAdjustment 1
 
 #define RowOne  0x00
 #define RowTwo  0x01

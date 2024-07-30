@@ -87,7 +87,7 @@ unsigned char DS1307::DS_r(unsigned char addr)
     I2C_w(0xD0);   /* Connect to DS1307 */
     I2C_w(addr);   /* Request RAM address on DS1307 */
     I2C_start();   /* Start i2c bus */
-    I2C_w(0XD1);   /* Connect to DS1307 for Read */
+    I2C_w(0xD1);   /* Connect to DS1307 for Read */
     ret = I2C_r(); /* Receive data */
     I2C_stop();
 
@@ -105,7 +105,7 @@ void DS1307::DS_W(unsigned char addr, unsigned char dat)
     dat = (((dat / 10) * 16) | (temp % 10)); /*for Led 7seg*/
 
     I2C_start(); /* Start i2c bus */
-    I2C_w(0XD0); /* Connect to DS1307 */
+    I2C_w(0xD0); /* Connect to DS1307 */
     I2C_w(addr); /* Request RAM address on DS1307 */
     I2C_w(dat);  /* Connect to DS1307 for Read */
     I2C_stop();
