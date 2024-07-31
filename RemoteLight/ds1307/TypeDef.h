@@ -150,7 +150,7 @@ enum UpDown : byte
 #define ON 1
 #define OFF 0
 
-#define NumberDayAdjustment 1
+#define NumberDayAdjustment 4
 
 #define RowOne  0x00
 #define RowTwo  0x01
